@@ -2,10 +2,12 @@ package cathay.bank.interview.demo.controller;
 
 import cathay.bank.interview.demo.repository.CurrencyRepository;
 import cathay.bank.interview.demo.service.CurrencyService;
+import cathay.bank.interview.demo.service.impl.CurrencyServiceImpl;
 import cathay.bank.interview.demo.service.dto.CurrencyDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
@@ -46,12 +48,13 @@ public class CurrencyController {
      * {@code POST  /currencies} : Create a new currency.
      *
      * @param currencyDTO the currencyDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new currencyDTO, or with status {@code 400 (Bad Request)} if the currency has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new currencyDTO,
+     * or with status {@code 400 (Bad Request)} if the currency has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
     public ResponseEntity<CurrencyDTO> createCurrency(@Valid @RequestBody CurrencyDTO currencyDTO) throws
-        URISyntaxException {
+            URISyntaxException, BadRequestException {
         log.debug("REST request to save Currency : {}", currencyDTO);
         if (ObjectUtils.isEmpty(currencyDTO.getCode())) {
             return ResponseEntity.badRequest().body(null);

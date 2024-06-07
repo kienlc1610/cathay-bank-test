@@ -1,1 +1,14 @@
-version: "3.9"
+name: demo_currency
+services:
+  swagger-editor:
+    image: swaggerapi/swagger-editor:latest
+    ports:
+      - 7742:8080
+  sonar:
+    container_name: sonarqube
+    image: sonarqube:10.5.0-community
+    environment:
+      - SONAR_FORCEAUTHENTICATION=false
+    ports:
+      - 9001:9000
+      - 9000:9000
